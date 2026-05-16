@@ -1,0 +1,27 @@
+name: Gerar Devocionais Diários
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # Todo dia às 5h BRT (8h UTC)
+  workflow_dispatch:     # Permite rodar manualmente
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependências
+        run: npm install @supabase/supabase-js ws
+
+      - name: Gerar devocional do dia
+        run: node scripts/gerar-devocionais.js
+        env:
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}

@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -568,27 +569,11 @@
 </section>
 
 <!-- DEVOCIONAL DO DIA -->
-<section class="devocional-destaque">
+<section class="devocional-destaque" id="devocional-container">
   <div class="devocional-card">
-    <span class="devocional-badge">Devocional de Hoje</span>
-    <div class="devocional-santo">Santo Antônio de Lisboa 🙏</div>
-
-    <div class="devocional-versiculo">
-      "A bondade do Senhor não tem fim e sua misericórdia jamais se esgota. Elas se renovam cada manhã. Sua lealdade é grande."
-      <strong>— Lamentações 3:22-23</strong>
-    </div>
-
-    <div class="devocional-section">
-      <h3>Reflexão do Dia</h3>
-      <div class="devocional-reflexao">
-        Santo Antônio é conhecido como o santo dos milagres e do amor misericordioso. Assim como Antônio dedicou sua vida ao cuidado dos pobres e necessitados, somos chamados a refletir a bondade divina em nossas ações.<br><br>
-        A misericórdia do Senhor se renova a cada manhã. Não importa nossas falhas do dia anterior, Deus nos oferece uma nova oportunidade. Hoje, peça a Deus a graça de viver essa misericórdia, compartilhando-a com quem encontrar no caminho.
-      </div>
-    </div>
-
-    <div class="devocional-oracao">
-      <h3 style="margin-bottom: 16px;">Oração de Hoje</h3>
-      Senhor Jesus, assim como Santo Antônio intercedeu pelos pobres e sofredores, intercede também por mim. Concede-me o coração generoso e amoroso para reconhecer Tua presença nos meus irmãos. Ajuda-me a viver cada dia com esperança renovada e a partilhar Tua misericórdia com quantos encontrar. Amém.
+    <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+      <div style="font-size: 24px; margin-bottom: 12px;">⏳</div>
+      <p>Carregando devocional do dia...</p>
     </div>
   </div>
 </section>
@@ -686,5 +671,74 @@
   </div>
 </footer>
 
+<script>
+  const SUPABASE_URL = 'https://hhybtkiuoacbtuxgkfgi.supabase.co'
+  const SUPABASE_KEY = 'sb_publishable_U5y8FOVE1vBYIfOweYnbMw_tmNBMvtF'
+  const { createClient } = supabase
+  const db = createClient(SUPABASE_URL, SUPABASE_KEY)
+
+  async function carregarDevocionalDoDia() {
+    try {
+      const hoje = new Date().toISOString().split('T')[0]
+
+      const { data, error } = await db
+        .from('devocionais')
+        .select('*')
+        .eq('data', hoje)
+        .single()
+
+      if (error || !data) {
+        // Se não encontrar, mostra devocional padrão
+        console.log('Nenhum devocional para hoje')
+        document.getElementById('devocional-container').innerHTML = `
+          <div class="devocional-card">
+            <span class="devocional-badge">Devocional de Hoje</span>
+            <div class="devocional-santo">Reflexão Especial 🙏</div>
+            <div class="devocional-versiculo">
+              "Confiai no Senhor de todo o vosso coração e não vos apoieis em vossa prudência."
+              <strong>— Provérbios 3:5</strong>
+            </div>
+            <div class="devocional-section">
+              <h3>Uma Oração para Hoje</h3>
+              <div class="devocional-reflexao">
+                Que este dia seja uma oportunidade de nos aproximarmos mais de Deus. Que nossas ações reflitam o amor do Senhor e que nossa fé nos guie em cada momento.
+              </div>
+            </div>
+          </div>
+        `
+        return
+      }
+
+      // Renderizar devocional
+      const html = `
+        <div class="devocional-card">
+          <span class="devocional-badge">Devocional de Hoje</span>
+          <div class="devocional-santo">${data.santo} ${data.emoji}</div>
+
+          <div class="devocional-versiculo">
+            "${data.versiculo}"
+            <strong>— ${data.referencia}</strong>
+          </div>
+
+          <div class="devocional-section">
+            <h3>Reflexão do Dia</h3>
+            <div class="devocional-reflexao">${data.reflexao.replace(/\n/g, '<br><br>')}</div>
+          </div>
+
+          <div class="devocional-oracao">
+            <h3 style="margin-bottom: 16px;">Oração de Hoje</h3>
+            ${data.oracao}
+          </div>
+        </div>
+      `
+
+      document.getElementById('devocional-container').innerHTML = html
+    } catch (err) {
+      console.error('Erro ao carregar devocional:', err)
+    }
+  }
+
+  carregarDevocionalDoDia()
+</script>
 </body>
 </html>
