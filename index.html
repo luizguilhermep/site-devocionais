@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diário de Fé — Devocionais Católicos Diários</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #8B4513;
+      --primary-light: #A0522D;
+      --primary-dark: #654321;
+      --accent: #D4AF37;
+      --success: #2E7D32;
+      --gray-50: #FAFAF9;
+      --gray-100: #F5F5F4;
+      --gray-200: #E7E5E4;
+      --gray-700: #292524;
+      --gray-900: #1C1917;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Georgia', serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      line-height: 1.8;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 20px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      font-size: 32px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      opacity: 0.95;
+      transition: opacity 0.2s;
+    }
+
+    nav a:hover { opacity: 1; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 80px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    /* DEVOCIONAL DO DIA */
+    .devocional-destaque {
+      max-width: 1200px;
+      margin: -60px auto 60px;
+      padding: 0 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .devocional-card {
+      background: white;
+      border-radius: 12px;
+      padding: 48px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-left: 6px solid var(--accent);
+    }
+
+    .devocional-data {
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .devocional-santo {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+
+    .devocional-versiculo {
+      background: var(--gray-100);
+      padding: 24px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-style: italic;
+      color: var(--gray-900);
+      margin-bottom: 24px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .devocional-reflexao {
+      font-size: 16px;
+      line-height: 2;
+      color: var(--gray-700);
+      margin-bottom: 24px;
+    }
+
+    .devocional-oracao {
+      background: rgba(139, 69, 19, 0.05);
+      padding: 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      line-height: 2;
+      font-style: italic;
+      color: var(--gray-900);
+    }
+
+    /* MAIN */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    /* GRID DEVOCIONAIS */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 28px;
+      margin-bottom: 60px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border-top: 4px solid var(--primary);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    }
+
+    .card-date {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .card-versiculo {
+      font-size: 14px;
+      font-style: italic;
+      color: var(--gray-700);
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+
+    .card-read {
+      display: inline-block;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .card-read:hover {
+      color: var(--primary-light);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--gray-900);
+      color: white;
+      text-align: center;
+      padding: 48px 24px;
+      margin-top: 60px;
+    }
+
+    footer p {
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .footer-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { display: none; }
+      .hero { padding: 60px 24px; }
+      .hero h1 { font-size: 2rem; }
+      .devocional-card { padding: 28px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--gray-100);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="logo">
+      <span class="logo-icon">✝️</span>
+      <span>Diário de Fé</span>
+    </div>
+    <nav>
+      <a href="#inicio">Início</a>
+      <a href="#devocionais">Devocionais</a>
+      <a href="#orações">Orações</a>
+      <a href="#santos">Santos</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="hero-content">
+    <h1>Diário de Fé</h1>
+    <p>Comece seu dia com uma reflexão espiritual. Devocionais católicos para nutrir sua alma e aproximar você de Deus.</p>
+  </div>
+</section>
+
+<!-- DEVOCIONAL DO DIA -->
+<section class="devocional-destaque">
+  <div class="devocional-card">
+    <div class="devocional-data">Quinta-feira, 16 de maio de 2026</div>
+    <div class="devocional-santo">Santo Antônio de Lisboa (Santo Antônio de Pádua) 🙏</div>
+
+    <div class="devocional-versiculo">
+      "A bondade do Senhor não tem fim e sua misericórdia jamais se esgota. Elas se renovam cada manhã. Sua lealdade é grande."
+      <br><strong>— Lamentações 3:22-23</strong>
+    </div>
+
+    <div class="devocional-reflexao">
+      <strong>Reflexão do Dia:</strong><br><br>
+      Santo Antônio é conhecido como o santo dos milagres e do amor misericordioso. Assim como Antônio dedicou sua vida ao cuidado dos pobres e necessitados, somos chamados a refletir a bondade divina em nossas ações.<br><br>
+      A misericórdia do Senhor se renova a cada manhã. Não importa nossas falhas do dia anterior, Deus nos oferece uma nova oportunidade. Hoje, peça a Deus a graça de viver essa misericórdia, compartilhando-a com quem encontrar no caminho.
+    </div>
+
+    <div class="devocional-oracao">
+      <strong>Oração de Hoje:</strong><br><br>
+      Senhor Jesus, assim como Santo Antônio intercedeu pelos pobres e sofredores, intercede também por mim. Concede-me o coração generoso e amoroso para reconhecer Tua presença nos meus irmãos. Ajuda-me a viver cada dia com esperança renovada e a partilhar Tua misericórdia com quantos encontrar. Amém.
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO DEVOCIONAIS -->
+<main id="devocionais">
+  <h2 class="section-title">Devocionais Anteriores</h2>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-date">Quarta-feira, 15 de maio</div>
+      <div class="card-title">São Bernardo de Claraval</div>
+      <div class="card-versiculo">
+        "Que melhor presente do que um coração que ama?"
+      </div>
+      <a href="#" class="card-read">Ler devocional →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-date">Terça-feira, 14 de maio</div>
+      <div class="card-title">Santa Joana d'Arc</div>
+      <div class="card-versiculo">
+        "Aja e Deus agirá também contigo"
+      </div>
+      <a href="#" class="card-read">Ler devocional →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-date">Segunda-feira, 13 de maio</div>
+      <div class="card-title">Nossa Senhora de Fátima</div>
+      <div class="card-versiculo">
+        "Rezai para evitar guerras e pedir a paz"
+      </div>
+      <a href="#" class="card-read">Ler devocional →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-date">Domingo, 12 de maio</div>
+      <div class="card-title">São Tiago, o Menor</div>
+      <div class="card-versiculo">
+        "A fé sem obras é morta"
+      </div>
+      <a href="#" class="card-read">Ler devocional →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-date">Sábado, 11 de maio</div>
+      <div class="card-title">Santo André</div>
+      <div class="card-versiculo">
+        "Lembrem-se de seus líderes"
+      </div>
+      <a href="#" class="card-read">Ler devocional →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-date">Sexta-feira, 10 de maio</div>
+      <div class="card-title">Santo Inácio de Loyola</div>
+      <div class="card-versiculo">
+        "Tudo deve ser para a maior glória de Deus"
+      </div>
+      <a href="#" class="card-read">Ler devocional →</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <h3 style="margin-bottom: 12px; font-size: 20px;">Diário de Fé ✝️</h3>
+  <p>Devocionais católicos para sua vida espiritual</p>
+  <p style="font-size: 14px; opacity: 0.8;">Baseado na Bíblia Sagrada — Tradução da CNBB</p>
+
+  <div class="footer-links">
+    <a href="#">Sobre</a>
+    <a href="#">Contato</a>
+    <a href="#">Privacidade</a>
+    <a href="#">Termos</a>
+  </div>
+
+  <p style="margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px;">
+    © 2026 Diário de Fé. Todos os direitos reservados.
+  </p>
+</footer>
+
+</body>
+</html>
