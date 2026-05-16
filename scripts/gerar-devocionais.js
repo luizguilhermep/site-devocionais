@@ -1,8 +1,11 @@
 const { createClient } = require('@supabase/supabase-js')
+const ws = require('ws')
 
 const SUPABASE_URL = 'https://hhybtkiuoacbtuxgkfgi.supabase.co'
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY
-const db = createClient(SUPABASE_URL, SUPABASE_KEY)
+const db = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  realtime: { transport: ws }
+})
 
 // Base de devocionais - você pode expandir
 const DEVOCIONAIS_BASE = [
