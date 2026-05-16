@@ -1,0 +1,76 @@
+{
+  "name": "Diário de Fé - Devocionais Católicos",
+  "short_name": "Diário de Fé",
+  "description": "Comece seu dia com uma reflexão espiritual. Devocionais católicos para nutrir sua alma e aproximar você de Deus.",
+  "start_url": "/site-devocionais/",
+  "scope": "/site-devocionais/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#1E3A8A",
+  "categories": ["lifestyle", "productivity"],
+  "screenshots": [
+    {
+      "src": "icons/screenshot-1.png",
+      "sizes": "540x720",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "icons/screenshot-2.png",
+      "sizes": "1280x720",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ver Devocionais",
+      "short_name": "Devocionais",
+      "description": "Abrir a lista de devocionais",
+      "url": "/site-devocionais/#devocionais",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Orações",
+      "short_name": "Orações",
+      "description": "Ver orações disponíveis",
+      "url": "/site-devocionais/#oracoes",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
